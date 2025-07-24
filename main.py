@@ -16,3 +16,36 @@ def hello():
 def welcoming(request: Request, name: str = "Undefined"):
     return Response(content=f"Welcome {name}", status_code=200)
 
+class StudentModel(BaseModel):
+    Reference: str
+    FirstName: str
+    LastName: str
+    age: int
+
+student_data: List[StudentModel] = []
+
+def serialized_stored_student():
+    student_converted = []
+    for student in student_data:
+        student_converted.append(student.model_dump())
+    return student_converted
+
+@app.get("/students")
+def list_students():
+    return serialized_stored_student()
+
+@app.post("/students")
+def add_student(new_student: StudentModel):
+    student_data.append(new_student)
+
+@app.put("/students")
+def edit_data(data: StudentModel):
+    update = False
+    for student in student_data:
+        if data.Reference == student:
+            student = data
+            update = True
+    if not update:
+        return add_student(StudentModel)
+    return Response(content=html_content, status_code=200)
+
