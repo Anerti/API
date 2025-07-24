@@ -37,6 +37,7 @@ def list_students():
 @app.post("/students")
 def add_student(new_student: StudentModel):
     student_data.append(new_student)
+        return student_data
 
 @app.put("/students")
 def edit_data(data: StudentModel):
