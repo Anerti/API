@@ -27,7 +27,7 @@ student_data: List[StudentModel] = []
 def serialized_stored_student():
     student_converted = []
     for student in student_data:
-        student_converted.append(student.model_dump())
+        student_converted = student
     return student_converted
 
 @app.get("/students")
